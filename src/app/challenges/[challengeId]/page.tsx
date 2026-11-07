@@ -18,7 +18,7 @@ export default async function ChallengeDetail({ params }: { params: Promise<{ ch
     if (!response.ok) throw new Error('Challenge unavailable');
     challenge = await response.json() as Challenge;
   } catch { return <main className="mx-auto max-w-3xl p-8">Unable to load this challenge. Please try again.</main>; }
-  const started = Boolean(challenge.startsAt && new Date(challenge.startsAt).getTime() <= Date.now());
+  const started = Boolean(challenge.startsAt);
   const expired = Boolean(challenge.endsAt && new Date(challenge.endsAt).getTime() <= Date.now());
   return <main className="mx-auto max-w-3xl px-6 py-12">
     <Link href="/challenges" className="text-sm font-semibold text-indigo-700">← All challenges</Link>
