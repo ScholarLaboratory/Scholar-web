@@ -28,7 +28,7 @@ export default async function ChallengeDetail({ params }: { params: Promise<{ ch
       <p className="mt-3 text-neutral-600">{challenge.questionCount} questions · Status: {challenge.status}</p>
       {challenge.status === 'COMPLETED' && <p className="mt-5 text-lg font-semibold">{challenge.winnerId === null ? 'Draw' : challenge.winnerId === user.id ? 'You won!' : 'Your opponent won.'} {challenge.challengerScore != null && challenge.opponentScore != null ? `(${challenge.challengerScore}–${challenge.opponentScore})` : ''}</p>}
       {challenge.status === 'ACTIVE' && started && !expired && challenge.myQuizId && <Link className="mt-6 inline-block rounded-xl bg-indigo-700 px-6 py-3 font-semibold text-white" href={`/quizzes/${challenge.myQuizId}`}>Enter challenge quiz</Link>}
-      {challenge.status === 'ACTIVE' && !started && <p className="mt-5 text-sm text-neutral-600">Both players must select “I'm ready” before the shared timer starts. Refresh this page to check for the start.</p>}
+      {challenge.status === 'ACTIVE' && !started && <p className="mt-5 text-sm text-neutral-600">Both players must select “I’m ready” before the shared timer starts. Refresh this page to check for the start.</p>}
       {challenge.status === 'ACTIVE' && expired && <p className="mt-5 text-sm text-neutral-600">Time has expired. Refresh to see the settled result.</p>}
       <ChallengeActions id={challenge.id} status={challenge.status} isOpponent={challenge.opponentId === user.id} isParticipant={true}/>
     </div>
