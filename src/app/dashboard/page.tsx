@@ -31,7 +31,7 @@ export default async function Dashboard() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
         <Link href="/" className="text-2xl font-black tracking-tight text-indigo-700">scholar<span className="text-indigo-400">.</span></Link>
         <div className="flex items-center gap-5">
-          <span className="hidden text-sm text-neutral-600 sm:block">@{user.username}</span>
+          <Link href="/profile" className="hidden text-sm font-semibold text-indigo-700 sm:block">My profile · @{user.username}</Link>
           <form action="/api/auth/logout" method="post"><button className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-semibold hover:bg-neutral-50">Sign out</button></form>
         </div>
       </div>
