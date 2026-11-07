@@ -4,6 +4,7 @@ import { redirect, notFound } from 'next/navigation';
 import { apiBaseUrl, getCurrentUser, SESSION_COOKIE } from '@/lib/auth';
 import { CompetitionActions } from '@/components/competition-actions';
 import { CompetitionCountdown } from '@/components/competition-countdown';
+import { CompetitionLiveRefresh } from '@/components/competition-live-refresh';
 
 type Competition = { id: string; title: string; status: string; facilitatorId: string; questionCount: number; durationSeconds: number; scheduledAt: string | null; startsAt: string | null; endsAt: string | null; participants: { userId: string }[] };
 type Ranking = { rank: number; user: { id: string; username: string; fullName: string }; score: number; total: number };
@@ -33,6 +34,7 @@ export default async function CompetitionDetail({ params }: { params: Promise<{ 
   const organizer = competition.facilitatorId === user.id;
   const joined = competition.participants.some(p => p.userId === user.id);
   return <main className="mx-auto max-w-4xl px-6 py-12">
+    <CompetitionLiveRefresh active={leaderboard?.status !== 'COMPLETED'} />
     <Link href="/competitions" className="text-sm font-semibold text-indigo-700">← Competitions</Link>
     <div className="mt-10 rounded-3xl border bg-white p-8">
       <p className="text-sm font-semibold uppercase tracking-widest text-indigo-700">Hosted competition · {competition.status}</p>
