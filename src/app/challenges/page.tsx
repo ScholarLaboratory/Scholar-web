@@ -20,7 +20,7 @@ export default async function ChallengesPage() {
     <Link href="/dashboard" className="text-sm font-semibold text-indigo-700">← Dashboard</Link>
     <p className="mt-10 text-sm font-semibold uppercase tracking-widest text-indigo-700">Compete together</p>
     <h1 className="mt-3 text-4xl font-bold">Your 1v1 challenges</h1>
-    <p className="mt-3 text-neutral-600">Accept invitations, get ready and play against classmates.</p>
+    <p className="mt-3 text-neutral-600">Accept invitations, get ready and play against classmates.</p><Link href="/challenges/new" className="mt-6 inline-block rounded-xl bg-indigo-700 px-5 py-3 text-sm font-semibold text-white">Create a challenge</Link>
     {error ? <p role="alert" className="mt-8 rounded-xl bg-red-50 p-4 text-red-700">{error}</p> :
       challenges.length ? <div className="mt-10 grid gap-4 sm:grid-cols-2">{challenges.map(challenge =>
         <article key={challenge.id} className="rounded-2xl border bg-white p-6">
