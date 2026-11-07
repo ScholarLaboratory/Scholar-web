@@ -41,8 +41,8 @@ export default async function CompetitionDetail({ params }: { params: Promise<{ 
       {competition.scheduledAt && <p className="mt-2 text-sm text-neutral-500">Scheduled: {new Date(competition.scheduledAt).toLocaleString('en-GB', { timeZone: 'UTC' })} UTC</p>}
       {joined && <p className="mt-4 font-semibold text-indigo-700">You are registered.</p>}
       <CompetitionActions id={id} status={competition.status} organizer={organizer} joined={joined}/>
-      {competition.endsAt && <CompetitionCountdown endsAt={competition.endsAt} />}
-      {quizId && competition.startsAt && <Link href={`/quizzes/${quizId}`} className="mt-6 inline-block rounded-xl bg-indigo-700 px-6 py-3 font-semibold text-white">Enter competition quiz</Link>}
+      {competition.endsAt && leaderboard?.status === 'IN_PROGRESS' && <CompetitionCountdown endsAt={competition.endsAt} />}
+      {quizId && competition.startsAt && leaderboard?.status !== 'COMPLETED' && <Link href={`/quizzes/${quizId}`} className="mt-6 inline-block rounded-xl bg-indigo-700 px-6 py-3 font-semibold text-white">Enter competition quiz</Link>}
       {competition.status === 'CLOSED' && !competition.startsAt && <p className="mt-5 text-sm text-neutral-600">Registration is closed. Waiting for the facilitator to start.</p>}
     </div>
     <section className="mt-8 rounded-3xl border bg-white p-8">
