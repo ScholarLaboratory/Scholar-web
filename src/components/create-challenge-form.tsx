@@ -28,7 +28,7 @@ export function CreateChallengeForm({ subjects }: { subjects: Subject[] }) {
     } catch (e) { setError(e instanceof Error ? e.message : 'Unable to create challenge.'); setBusy(false); }
   }
   return <form onSubmit={submit} className="mt-8 space-y-5 rounded-2xl border bg-white p-6">
-    <label className="block text-sm font-semibold">Opponent's student ID<input name="opponentId" required placeholder="Student UUID" className="mt-2 w-full rounded-xl border px-4 py-3 font-normal" pattern="[0-9a-fA-F-]{36}" /></label>
+    <label className="block text-sm font-semibold">Opponent’s student ID<input name="opponentId" required placeholder="Student UUID" className="mt-2 w-full rounded-xl border px-4 py-3 font-normal" pattern="[0-9a-fA-F-]{36}" /></label>
     <p className="text-xs text-neutral-500">For now, paste the student ID of the person you want to challenge. Student search will replace this field.</p>
     <label className="block text-sm font-semibold">Subject<select value={subjectId} onChange={e => { const id = e.target.value; setSubjectId(id); setTopicId(subjects.find(s => s.id === id)?.topics[0]?.id ?? ''); }} className="mt-2 w-full rounded-xl border px-4 py-3 font-normal">{subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select></label>
     <label className="block text-sm font-semibold">Topic<select value={topicId} onChange={e => setTopicId(e.target.value)} className="mt-2 w-full rounded-xl border px-4 py-3 font-normal">{topics.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}</select></label>
