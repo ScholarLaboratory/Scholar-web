@@ -1,0 +1,4 @@
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { getCurrentUser } from '@/lib/auth';
+export default async function Dashboard() { const user = await getCurrentUser(); if (!user) redirect('/login'); return <main className="mx-auto max-w-5xl px-6 py-12"><div className="flex items-center justify-between"><span className="text-xl font-bold text-indigo-700">Scholar</span><form action="/api/auth/logout" method="post"><button className="rounded-lg border px-4 py-2 text-sm">Sign out</button></form></div><section className="mt-16"><p className="text-neutral-600">Student dashboard</p><h1 className="mt-2 text-4xl font-bold">Welcome, {user.fullName}!</h1><p className="mt-4 text-neutral-600">Your learning journey starts here. Quizzes, challenges and competitions are coming next.</p><Link className="mt-8 inline-block rounded-lg bg-indigo-700 px-5 py-3 text-white" href="/">Explore Scholar</Link></section></main>; }
