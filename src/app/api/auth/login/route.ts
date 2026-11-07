@@ -1,0 +1,31 @@
+import { NextResponse } from 'next/server';
+import { apiBaseUrl, SESSION_COOKIE } from '@/lib/auth';
+
+export async function POST(request: Request) {
+  // Reject cross-origin browser form submissions before setting a session cookie.
+  const origin = request.headers.get('origin');
+  if (origin && origin !== new URL(request.url).origin) {
+    return NextResponse.json({ message: 'Invalid request origin.' }, { status: 403 });
+  }
+  let payload: unknown;
+  try { payload = await request.json(); }
+  catch { return NextResponse.json({ message: 'Invalid request.' }, { status: 400 }); }
+  try {
+    const upstream = await fetch(`${apiBaseUrl()}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      cache: 'no-store',
+    });
+    const body = await upstream.json();
+    if (!upstream.ok) return NextResponse.json({ message: body.message ?? 'Unable to sign in.' }, { status: upstream.status });
+    const token = body?.data?.accessToken;
+    if (typeof token !== 'string' || !token) return NextResponse.json({ message: 'Unexpected authentication response.' }, { status: 502 });
+    const response = NextResponse.json({ user: body.data.user });
+    response.cookies.set(SESSION_COOKIE, token, {
+      httpOnly: true, secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax', path: '/', maxAge: 60 * 60 * 24,
+    });
+    return response;
+  } catch { return NextResponse.json({ message: 'Authentication service unavailable.' }, { status: 502 }); }
+}

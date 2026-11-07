@@ -1,0 +1,3 @@
+import { NextResponse } from 'next/server';
+import { apiBaseUrl } from '@/lib/auth';
+export async function POST(request: Request) { let payload: unknown; try { payload = await request.json(); } catch { return NextResponse.json({ message: 'Invalid request.' }, { status: 400 }); } try { const upstream = await fetch(`${apiBaseUrl()}/auth/register`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), cache: 'no-store' }); const body = await upstream.json(); return NextResponse.json({ message: body.message ?? (upstream.ok ? 'Account created.' : 'Unable to register.') }, { status: upstream.status }); } catch { return NextResponse.json({ message: 'Registration service unavailable.' }, { status: 502 }); } }
