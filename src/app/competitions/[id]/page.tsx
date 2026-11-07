@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { redirect, notFound } from 'next/navigation';
 import { apiBaseUrl, getCurrentUser, SESSION_COOKIE } from '@/lib/auth';
 import { CompetitionActions } from '@/components/competition-actions';
+import { CompetitionCountdown } from '@/components/competition-countdown';
 
 type Competition = { id: string; title: string; status: string; facilitatorId: string; questionCount: number; durationSeconds: number; scheduledAt: string | null; startsAt: string | null; endsAt: string | null; participants: { userId: string }[] };
 type Ranking = { rank: number; user: { id: string; username: string; fullName: string }; score: number; total: number };
@@ -40,6 +41,7 @@ export default async function CompetitionDetail({ params }: { params: Promise<{ 
       {competition.scheduledAt && <p className="mt-2 text-sm text-neutral-500">Scheduled: {new Date(competition.scheduledAt).toLocaleString('en-GB', { timeZone: 'UTC' })} UTC</p>}
       {joined && <p className="mt-4 font-semibold text-indigo-700">You are registered.</p>}
       <CompetitionActions id={id} status={competition.status} organizer={organizer} joined={joined}/>
+      {competition.endsAt && <CompetitionCountdown endsAt={competition.endsAt} />}
       {quizId && competition.startsAt && <Link href={`/quizzes/${quizId}`} className="mt-6 inline-block rounded-xl bg-indigo-700 px-6 py-3 font-semibold text-white">Enter competition quiz</Link>}
       {competition.status === 'CLOSED' && !competition.startsAt && <p className="mt-5 text-sm text-neutral-600">Registration is closed. Waiting for the facilitator to start.</p>}
     </div>
